@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { TodoItem } from './todo.item';
 
 @Injectable({ providedIn: 'root' })
 export class TodoService {
 
-  private itemsArchive: TodoItem[];
+  // behaviour subject implementation
+  readonly itemsArchive$: BehaviorSubject<TodoItem[]>;
 
   constructor() {
-    this.itemsArchive = [];
+    this.itemsArchive$ = new BehaviorSubject([]);
   }
 
   addItem(item: TodoItem): void {
-    this.itemsArchive.push(item);
-  }
-
-  getItemsArchive(): TodoItem[] {
-    return this.itemsArchive;
+    const temp = this.itemsArchive$.getValue();
+    temp.push(item);
+    this.itemsArchive$.next(temp);
   }
 }
