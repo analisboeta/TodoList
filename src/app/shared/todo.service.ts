@@ -17,4 +17,16 @@ export class TodoService {
     temp.push(item);
     this.itemsArchive$.next(temp);
   }
+
+  deleteItem(itemToDelete: TodoItem): void {
+    const temp = this.itemsArchive$.getValue();
+    const index = temp.findIndex(item => item.id === itemToDelete.id);
+
+    if ( index > -1){
+      temp.splice(index, 1);
+    }
+    this.itemsArchive$.next(temp);
+  }
+
+
 }
