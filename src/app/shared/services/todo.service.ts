@@ -23,7 +23,10 @@ export class TodoService implements OnDestroy {
     // teste - tira os genericos e ve o erro que acontece
 //    const subscription = this.httpclient.get<TodoItem[]>(this.api).subscribe(items => this.itemsArchive$.next(items));
     const response$ = this.httpclient.get<TodoItem[]>(this.api);
-    const subscription = response$.subscribe(items => this.itemsArchive$.next(items));
+    const subscription = response$.subscribe(items => {
+      this.itemsArchive$.next(items);
+      console.log(typeof items[0]);
+    });
     this.subscriptions.push(subscription);
   }
 
