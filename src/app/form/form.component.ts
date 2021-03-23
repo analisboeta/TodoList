@@ -2,8 +2,8 @@ import { DoCheck, OnDestroy } from '@angular/core';
 import { OnChanges } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { TodoItem } from '../shared/todo.item';
-import { TodoService } from '../shared/todo.service';
+import { TodoItem } from '../shared/models/todo.item';
+import { TodoService } from '../shared/services/todo.service';
 
 @Component({
   selector: 'app-form',

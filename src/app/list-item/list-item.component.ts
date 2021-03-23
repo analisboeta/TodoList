@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { TodoItem } from '../shared/todo.item';
-import { TodoService } from '../shared/todo.service';
+import { TodoItem } from '../shared/models/todo.item';
+import { TodoService } from '../shared/services/todo.service';
 
 @Component({
   selector: 'app-list-item',
