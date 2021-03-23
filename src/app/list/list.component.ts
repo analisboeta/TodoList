@@ -10,12 +10,13 @@ import { TodoService } from '../shared/services/todo.service';
 })
 export class ListComponent implements OnInit, OnDestroy {
 
-  archiveLength: number = 0;
+  archiveLength = 0;
   itemsArchive$: Observable<TodoItem[]>;
   private subscriptions: Subscription[] = [];
 
   constructor(private todoService: TodoService) {
     this.itemsArchive$ = this.todoService.itemsArchive$;
+    this.todoService.loadItems();
   }
 
 

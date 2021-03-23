@@ -12,7 +12,7 @@ import { TodoService } from '../shared/services/todo.service';
 })
 export class FormComponent implements OnInit, OnDestroy, OnChanges, DoCheck {
 
-  currentComponent: string = 'Form Component';
+  currentComponent = 'Form Component';
   public form: FormGroup;
 
   constructor(private fb: FormBuilder, private todoService: TodoService) {
@@ -25,8 +25,8 @@ export class FormComponent implements OnInit, OnDestroy, OnChanges, DoCheck {
     });
   }
 
-addItems():void {
-  this.todoService.addItem(new TodoItem(Math.random(), this.form.value.name));
+addItems(): void {
+  this.todoService.addItem(new TodoItem(Math.random(), Math.random(), this.form.value.name, false));
 }
   ngOnInit(): void {
     console.log('On Init', this.currentComponent);
