@@ -6,11 +6,7 @@ export class TodoItem {
   completed: boolean;
 
 
-  constructor(userId: number, id: number, title: string, completed: boolean) {
-    this.userId = userId;
-    this.id = id;
-    this.title = title;
-    this.completed = completed;
+  constructor() {
   }
 
   // todoItem -> qq outra coisa - http client ocupa se disto em JSON, logo return do pp objeto.

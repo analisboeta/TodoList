@@ -26,7 +26,9 @@ export class FormComponent implements OnInit, OnDestroy, OnChanges, DoCheck {
   }
 
 addItems(): void {
-  this.todoService.addItem(new TodoItem(Math.random(), Math.random(), this.form.value.name, false));
+  const newItem = new TodoItem();
+  newItem.title = this.form.controls.name.value;
+  this.todoService.addItem(newItem);
 }
   ngOnInit(): void {
     console.log('On Init', this.currentComponent);

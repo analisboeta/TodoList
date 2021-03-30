@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { TodoItem } from '../models/todo.item';
 
@@ -22,7 +23,11 @@ export class TodoService implements OnDestroy {
   loadItems(): void {
     // teste - tira os genericos e ve o erro que acontece
 //    const subscription = this.httpclient.get<TodoItem[]>(this.api).subscribe(items => this.itemsArchive$.next(items));
-    const response$ = this.httpclient.get<TodoItem[]>(this.api);
+    const response$ = this.httpclient.get<TodoItem[]>(this.api).pipe(map((result: []) => {
+      const deserializedResults: TodoItem[] = [];
+      result.forEach(item => deserializedResults.push(new TodoItem().deserialize(item)));
+      return deserializedResults;
+    }));
     const subscription = response$.subscribe(items => {
       this.itemsArchive$.next(items);
       console.log(typeof items[0]);
