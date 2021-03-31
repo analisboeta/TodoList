@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subscription, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { TodoItem } from '../models/todo.item';
 
@@ -15,6 +15,22 @@ export class TodoService implements OnDestroy {
   readonly api: string = environment.api;
 
   private subscriptions: Subscription[] = [];
+
+  private static handleError(error: HttpErrorResponse): any {
+    if (error.error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error('An error occurred:', error.error.message);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong.
+      console.error(
+        `Backend returned code ${error.status}, ` +
+        `body was: ${error.error}`);
+    }
+    // Return an observable with a user-facing error message.
+    return throwError(
+      'Something bad happened; please try again later.');
+  }
 
   constructor(private httpclient: HttpClient) {
     this.itemsArchive$ = new BehaviorSubject([]);
@@ -36,9 +52,14 @@ export class TodoService implements OnDestroy {
   }
 
   addItem(item: TodoItem): void {
-    const temp = this.itemsArchive$.getValue();
-    temp.push(item);
-    this.itemsArchive$.next(temp); // atualizar obs
+    const response$ = this.httpclient.post<TodoItem>(this.api, item, { responseType: 'json' })
+      .pipe(catchError(err => TodoService.handleError(err)));
+    const subscription = response$.subscribe((result: TodoItem)  => {
+      const temp = this.itemsArchive$.getValue();
+      temp.push(result);
+      this.itemsArchive$.next(temp);
+    });
+    this.subscriptions.push(subscription);
   }
 
   deleteItem(itemToDelete: TodoItem): void {
@@ -54,6 +75,4 @@ export class TodoService implements OnDestroy {
   ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
-
-
 }

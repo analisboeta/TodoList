@@ -10,7 +10,7 @@ import { TodoService } from '../shared/services/todo.service';
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.css']
 })
-export class FormComponent implements OnInit, OnDestroy, OnChanges, DoCheck {
+export class FormComponent implements OnInit, OnDestroy {
 
   currentComponent = 'Form Component';
   public form: FormGroup;
@@ -38,11 +38,11 @@ addItems(): void {
     console.log('On Destroy', this.currentComponent);
   }
 
-  ngOnChanges(): void {
-    console.log('On Changes', this.currentComponent);
-  }
+  // ngOnChanges(): void {
+  //   console.log('On Changes', this.currentComponent);
+  // }
 
-  ngDoCheck(): void {
-    console.log('On Do Check', this.currentComponent);
-  }
+  // ngDoCheck(): void {
+  //   console.log('On Do Check', this.currentComponent);
+  // }
 }
