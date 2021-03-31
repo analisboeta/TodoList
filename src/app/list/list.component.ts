@@ -16,7 +16,6 @@ export class ListComponent implements OnInit, OnDestroy {
 
   constructor(private todoService: TodoService) {
     this.itemsArchive$ = this.todoService.itemsArchive$;
-    this.todoService.loadItems();
   }
 
 
@@ -25,6 +24,7 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    console.log('ListComponent ngOnDestroy');
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 }

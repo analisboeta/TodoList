@@ -34,6 +34,7 @@ export class TodoService implements OnDestroy {
 
   constructor(private httpclient: HttpClient) {
     this.itemsArchive$ = new BehaviorSubject([]);
+    this.loadItems();
   }
 
   loadItems(): void {

@@ -1,12 +1,8 @@
-<head></head>
-<body>
   <section>
-    <h1>To-do List - angular hello World!</h1>
-    <p>Helping you get things done since 2020.</p>
+    <a routerLink="/list" routerLinkActive="selected">LIST</a>
+    <br>
+    <a routerLink="/add" routerLinkActive="selected">ADD</a>
+    <br>
+<!--    router outlet local onde sao renderizados os componentes-->
+    <router-outlet></router-outlet>
   </section>
-  <section>
-    <app-form></app-form>
-    <app-list></app-list>
-
-  </section>
-</body><!--footer-->
