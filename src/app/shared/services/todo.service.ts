@@ -73,6 +73,12 @@ export class TodoService implements OnDestroy {
     this.itemsArchive$.next(temp);
   }
 
+  findById(itemToFind: number): TodoItem {
+    const temp = this.itemsArchive$.getValue();
+    return temp.find(item => item.id === itemToFind);
+
+  }
+
   ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }

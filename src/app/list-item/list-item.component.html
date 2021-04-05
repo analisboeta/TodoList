@@ -1,2 +1,10 @@
-<div>{{item.title}}</div> - <a (click)="delete()">delete</a>
+<div class="mat-list-item"><span>{{item.title}}</span>
+  <a routerLink="/edit/{{item.id}}"
+     routerLinkActive="selected">
+    <span class="material-icons">mode_edit</span>
+  </a>
+  <a (click)="delete()">
+    <span class="material-icons">delete</span>
+  </a>
+</div>
 <br>
