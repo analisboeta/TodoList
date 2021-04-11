@@ -2,6 +2,14 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.2.
 
+This is a study project for Angular created during a mentorship. The code will be as annotated as possible.
+
+**_If you find anything wrong, please contact me! Help me improve my knowledge of this framework!_**
+
+----
+
+# Automatically created text by angular CLI :
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.

@@ -1,7 +1,9 @@
 <form [formGroup]="form">
+  <label for="inputTodoItem">Insert or update item on list</label>
   <input formControlName="name"
-         type="text" matInput/>
+         id="inputTodoItem"
+         type="text"/>
   <button type="submit"
-          (click)="addItems()">Submit
+          (click)="addOrUpdateItem()">Submit
   </button>
 </form>

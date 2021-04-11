@@ -1,5 +1,11 @@
-<p>Quantidade de Itens - {{archiveLength}}</p>
-<app-list-item *ngFor="let item of itemsArchive$ | async"
-               [item]="item"></app-list-item>
-<a routerLink="/edit/500000"
-   routerLinkActive="selected">TESTE 404</a>
+<div class="container">
+  <div class="row">
+    <div class="col text-center">
+      <p>Total Items on List - {{archiveLength}}</p>
+    </div>
+  </div>
+  <app-list-item *ngFor="let item of itemsArchive$ | async"
+                 [item]="item"></app-list-item>
+</div>
+
+

@@ -1,10 +1,34 @@
-<div class="mat-list-item"><span>{{item.title}}</span>
-  <a routerLink="/edit/{{item.id}}"
-     routerLinkActive="selected">
-    <span class="material-icons">mode_edit</span>
-  </a>
-  <a (click)="delete()">
-    <span class="material-icons">delete</span>
-  </a>
+<div class="row justify-content-md-center">
+  <div class="col-md-auto">
+    <!--    CHECKBOX-->
+    <div class="form-check">
+      <input (click)="markAsDone"
+             class="form-check-input"
+             id="flexCheckDefault"
+             type="checkbox"
+             value="">
+      <label class="form-check-label"
+             for="flexCheckDefault"></label>
+    </div>
+  </div>
+  <div class="col">
+    <span>{{item.title}}</span>
+  </div>
+  <div class="col">
+    <button class="btn btn-default btn-sm"
+            type="button">
+      <a routerLink="/edit/{{item.id}}"
+         routerLinkActive="selected">
+        <fa-icon [icon]="faEdit"></fa-icon>
+        Edit
+      </a>
+    </button>
+    <button class="btn btn-default btn-sm"
+            type="button">
+      <a (click)="delete()">
+        <fa-icon [icon]="faDelete"></fa-icon>
+        Delete
+      </a>
+    </button>
+  </div>
 </div>
-<br>

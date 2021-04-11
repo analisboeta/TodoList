@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, Observable, Subscription, throwError } from 'rxjs';
+import { BehaviorSubject, Subscription, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { TodoItem } from '../models/todo.item';
@@ -13,6 +13,7 @@ export class TodoService implements OnDestroy {
 
   // build consoante a flag substitui ficheiro env.ts
   readonly api: string = environment.api;
+  readonly forceErrorApi: string = 'abcd'; // example to substitute when testing error-logger.interceptor
 
   private subscriptions: Subscription[] = [];
 
@@ -53,9 +54,14 @@ export class TodoService implements OnDestroy {
   }
 
   addItem(item: TodoItem): void {
-    const response$ = this.httpclient.post<TodoItem>(this.api, item, { responseType: 'json' })
+    const response$ = this.httpclient.post<TodoItem>(this.api, item, {
+      responseType: 'json',
+      headers: {
+        skipInterceptor: 'true'
+      }
+    })
       .pipe(catchError(err => TodoService.handleError(err)));
-    const subscription = response$.subscribe((result: TodoItem)  => {
+    const subscription = response$.subscribe((result: TodoItem) => {
       const temp = this.itemsArchive$.getValue();
       temp.push(result);
       this.itemsArchive$.next(temp);
@@ -73,6 +79,18 @@ export class TodoService implements OnDestroy {
     this.itemsArchive$.next(temp);
   }
 
+  completeItem(itemToComplete: TodoItem): void {
+    const temp = this.itemsArchive$.getValue();
+    const index = temp.findIndex(item => item.id === itemToComplete.id);
+
+    if (index > -1) {
+      itemToComplete.completed = true;
+      temp.splice(index, 1); //nao encontrei maneira de o fazer
+      temp.push(itemToComplete);
+    }
+    this.itemsArchive$.next(temp);
+  }
+
   findById(itemToFind: number): TodoItem {
     const temp = this.itemsArchive$.getValue();
     return temp.find(item => item.id === itemToFind);
@@ -81,5 +99,17 @@ export class TodoService implements OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
+  editItem(itemToEdit: TodoItem): void {
+
+    const temp = this.itemsArchive$.getValue();
+    const index = temp.findIndex(item => item.id === itemToEdit.id); // ve se ja existe o item
+
+    if (index > -1) {
+      temp[index] = itemToEdit; // substituir
+    }
+    this.itemsArchive$.next(temp);
+
   }
 }

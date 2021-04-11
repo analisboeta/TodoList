@@ -1,7 +1,7 @@
-import { DoCheck, OnDestroy } from '@angular/core';
-import { OnChanges } from '@angular/core';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { TodoItem } from '../shared/models/todo.item';
 import { TodoService } from '../shared/services/todo.service';
 
@@ -14,28 +14,42 @@ export class FormComponent implements OnInit, OnDestroy {
 
   currentComponent = 'Form Component';
   public form: FormGroup;
+  private item?: TodoItem;
+  private subscriptions: Subscription[] = [];
 
-  constructor(private fb: FormBuilder, private todoService: TodoService) {
-    this.buildForm();
+  constructor(private fb: FormBuilder, private todoService: TodoService, private activatedRoute: ActivatedRoute, private router: Router) {
+    this.subscriptions.push(this.activatedRoute.data.subscribe((data) => {
+      this.item = data.item;
+      this.buildForm();
+    }));
   }
 
   buildForm(): void {
     this.form = this.fb.group({
-      name: []
+      name: [this.item?.title]
     });
   }
 
-addItems(): void {
-  const newItem = new TodoItem();
-  newItem.title = this.form.controls.name.value;
-  this.todoService.addItem(newItem);
-}
+  addOrUpdateItem(): void {
+    const title = this.form.controls.name.value;
+
+    if (!!this.item) {
+      this.item.title = title;
+      this.todoService.editItem(this.item);
+    } else {
+      const newItem = new TodoItem();
+      newItem.title = title;
+      this.todoService.addItem(newItem);
+    }
+
+    this.router.navigate(['/list']);
+  }
+
   ngOnInit(): void {
-    console.log('On Init', this.currentComponent);
   }
 
   ngOnDestroy(): void {
-    console.log('On Destroy', this.currentComponent);
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
   // ngOnChanges(): void {

@@ -1,4 +1,5 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { faPencilAlt, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { TodoItem } from '../shared/models/todo.item';
 import { TodoService } from '../shared/services/todo.service';
 
@@ -9,13 +10,19 @@ import { TodoService } from '../shared/services/todo.service';
 })
 export class ListItemComponent {
 
+  faEdit = faPencilAlt;
+  faDelete = faTrash;
+
   @Input()
   item: TodoItem;
 
-  constructor(private todoService: TodoService ) {
+  @Output() markAsDone = new EventEmitter<TodoItem>();
+
+
+  constructor(private todoService: TodoService) {
   }
 
-  delete():void {
+  delete(): void {
     this.todoService.deleteItem(this.item);
   }
 }
